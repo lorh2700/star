@@ -7,13 +7,11 @@ import java.util.Queue;
 
 public class LoadBalancer {
 	
-	public static Queue<Integer> lbQueue;
 	public static Queue<Integer> fwQueue;
 	public static BackWorker[] wokers;
 	
 	public static void main(String[] args) throws InterruptedException, IOException {
 		
-		lbQueue = new LinkedList<>();
 		fwQueue = new LinkedList<>();
 		
 		wokers = new BackWorker[5];
