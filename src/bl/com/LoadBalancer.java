@@ -1,26 +1,35 @@
 package bl.com;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 
 public class LoadBalancer {
-
-	public static void main(String[] args) throws InterruptedException {
+	
+	public static Queue<Integer> lbQueue;
+	public static Queue<Integer> fwQueue;
+	public static BackWorker[] wokers;
+	
+	public static void main(String[] args) throws InterruptedException, IOException {
 		
+		lbQueue = new LinkedList<>();
+		fwQueue = new LinkedList<>();
 		
-		for(int i = 0; i < 5; i ++) {
-			Thread thread = new Thread(new FrontWorker());
-			
-			thread.start();
-			thread.join();
-			thread.sleep(10000);
-		}
-
+		wokers = new BackWorker[5];
+		initializeWorkers();
+		
+		Thread th = new Thread(new FrontWorker());
+		th.start();
+		th.join();
+	
+		System.out.println(" 종료  ");
+		
 	}
-
+	
+	public static void initializeWorkers() throws InterruptedException{
+        for(int i=0; i<wokers.length; i++){
+        	wokers[i] = new BackWorker("thread - " + (i + 1));        
+        }
+    }
 }
